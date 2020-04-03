@@ -1,0 +1,30 @@
+/* body {
+    background: #dce1e8;
+} */
+
+.create-hotel-wrapper {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.create-hotel-wrapper .title {
+    text-align: center;
+    padding: 20px;
+}
+
+.create-hotel-wrapper .form-wrapper {
+    display: flex;
+}
+
+.btn-create-hotel {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-hotel-wrapper .status-field {
+    min-width: 0;
+    width: 100%;
+}
