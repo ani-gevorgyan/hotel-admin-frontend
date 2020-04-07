@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,14 +22,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
-import { getAllHotels, deleteHotel, updateHotel } from '../../services/services';
-import ModalConfirm from '../../components/modalConfirm/modalConfirm';
+import HotelsList from '../../components/hotelsList/hotelsList';
 
 
 const drawerWidth = 240;
@@ -116,11 +111,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminDashboard() {
     const classes = useStyles();
-    const url = 'http://localhost:4000/hotels'
     const [open, setOpen] = React.useState(true);
-    const [modalOpen, setModalOpen] = React.useState(false);
     const [isSelected, setIsSelected] = React.useState(true);
-    const [hotels, setHotel] = React.useState([]);
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -130,27 +123,6 @@ export default function AdminDashboard() {
         setOpen(false);
     };
 
-    const onDeleteBtnClick = (e, id) => {
-        e.stopPropagation();
-        console.log('---------', e, id)
-        setModalOpen(true);
-    };
-
-    const modalHandleCancel = () => {
-        setModalOpen(false);
-    };
-
-    const handleDeleteHotel = (event) => {
-        console.log('yeeeeee', event);
-        setModalOpen(false);
-    };
-
-    useEffect(() => {
-        const res = getAllHotels(url);
-        res
-            .then(res => setHotel(res))
-            .catch(err => console.log(err))
-    }, [])
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -216,50 +188,12 @@ export default function AdminDashboard() {
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 <Table size="medium">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell style={{ fontWeight: '1000' }}>Hotel</TableCell>
-                                            <TableCell style={{ fontWeight: '1000' }}>Address</TableCell>
-                                            <TableCell style={{ fontWeight: '1000' }}>Status</TableCell>
-                                            <TableCell style={{ fontWeight: '1000' }}>Room Count</TableCell>
-                                            <TableCell style={{ fontWeight: '1000' }}>Price</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {hotels.map((hotel) => (
-                                            <TableRow key={hotel._id}>
-                                                <TableCell>{hotel.name}</TableCell>
-                                                <TableCell>{hotel.address}</TableCell>
-                                                <TableCell>{hotel.status}</TableCell>
-                                                <TableCell>{hotel.roomCount}</TableCell>
-                                                <TableCell>{hotel.price}$</TableCell>
-                                                <TableCell>
-                                                    <Button variant="contained" color="primary" size="small" style={{ opacity: '0.9', marginRight: '5px', marginBottom: '2px' }}>
-                                                        Edit
-                                                    </Button>
-                                                    <Button variant="contained" color="secondary" size="small"
-                                                        style={{ opacity: '0.9', marginBottom: '2px' }}
-                                                        onClick={(e) => {
-                                                            const id = hotel._id
-                                                            onDeleteBtnClick(e, id)
-                                                        }}
-                                                    >
-                                                        Delete
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
+                                    <HotelsList />
                                 </Table>
                             </Paper>
                         </Grid>
                     </Grid>
                 </Container>
-                <ModalConfirm
-                    open={modalOpen}
-                    modalHandleCancel={modalHandleCancel}
-                    onDelete={event => handleDeleteHotel(event)}
-                />
             </main>
         </div>
     )

@@ -6,7 +6,6 @@ import AdminDashboard from '../pages/adminDashboard/adminDashboard';
 import CreateHotel from '../pages/createHotel/createHotel';
 
 import history from './history';
-
 export default function Routes() {
     return (
         <>
