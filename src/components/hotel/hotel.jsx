@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
 import ModalConfirm from '../modalConfirm/modalConfirm';
-import { updateHotel, deleteHotel } from '../../services/services';
+import { deleteHotel } from '../../services/services';
 import EditModal from '../editModal/editModal';
+
+// import '../editModal/editModal.css';
 
 export default function Hotel({ hotel }) {
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
     const [editModalOpen, setEditModalOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const onDeleteBtnClick = (e) => {
         e.stopPropagation();
@@ -27,15 +30,22 @@ export default function Hotel({ hotel }) {
     };
 
     const handleDeleteHotel = (id, e) => {
-        console.log('yeeeeee', id, e);
         deleteHotel(id)
         setDeleteModalOpen(false);
         setTimeout(() => {
             console.log(id);
-            window.location.reload(true);
+            setLoading(true)
+            window.location.reload(false);
         }, 500);
     };
 
+    // if (loading) {
+    //     return (
+    //         <div className='spinner'>
+    //             <CircularProgress color='secondary' position='center' />
+    //         </div>
+    //     )
+    // }
 
     return (
         <>

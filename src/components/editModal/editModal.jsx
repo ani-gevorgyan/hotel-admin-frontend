@@ -4,16 +4,18 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import './editModal.css';
 
 import { updateHotel } from '../../services/services';
 
-export default function EditModal({ open, modalHandleCancel, onEdit, hotel }) {
+export default function EditModal({ open, modalHandleCancel, hotel }) {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [roomCount, setRoomCount] = useState(1);
@@ -21,6 +23,7 @@ export default function EditModal({ open, modalHandleCancel, onEdit, hotel }) {
     const [status, setStatus] = useState('active');
     const [isPriceNumber, setIsPriceNumber] = useState(true);
     const [isCountNumber, setIsCountNumber] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setName(hotel.name)
@@ -74,10 +77,19 @@ export default function EditModal({ open, modalHandleCancel, onEdit, hotel }) {
         }
         updateHotel(url, data);
         modalHandleCancel();
+        setLoading(true);
         setTimeout(() => {
             console.log(data);
             window.location.reload(true);
         }, 500);
+    }
+
+    if (loading) {
+        return (
+            <div className='spinner'>
+                <CircularProgress color='secondary' position='center' />
+            </div>
+        )
     }
 
     return (

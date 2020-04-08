@@ -14,7 +14,9 @@ export default function HotelsList() {
     useEffect(() => {
         const res = getAllHotels(url);
         res
-            .then(res => setHotel(res))
+            .then(res => {
+                setHotel(res.hotels);
+            })
             .catch(err => console.log(err))
     }, [])
 

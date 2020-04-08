@@ -19,10 +19,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
+import ApartmentIcon from '@material-ui/icons/Apartment';
 
 import HotelsList from '../../components/hotelsList/hotelsList';
 
@@ -115,8 +115,12 @@ export default function AdminDashboard() {
     const [isSelected, setIsSelected] = React.useState(true);
 
 
+
+
+
     const handleDrawerOpen = () => {
         setOpen(true);
+
     };
 
     const handleDrawerClose = () => {
@@ -166,9 +170,9 @@ export default function AdminDashboard() {
                 <List>
                     <ListItem button selected={isSelected}>
                         <ListItemIcon>
-                            <ShoppingCartIcon />
+                            <ApartmentIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Rerservations" />
+                        <ListItemText primary="Hotels" />
                     </ListItem>
                     <ListItem button>
                         <ListItemIcon>

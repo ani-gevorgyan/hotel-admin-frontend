@@ -1,16 +1,29 @@
 import axios from 'axios';
+import {
+    message
+} from 'antd';
+
+export const errorMessage = (msg = '') => {
+    message.error(msg, [10])
+}
+
+export const successMessage = (msg) => {
+    message.success(msg, [10])
+}
 
 export function createHotel(url, data) {
     axios
         .post(url, data)
         .then(res => {
             console.log(res.data.message, res.data.hotel);
+            successMessage(res.data.message);
         })
         .catch(e => {
             const err = {
                 ...e
             }
             console.log(err)
+            errorMessage(err.response.data.error);
         })
 }
 
@@ -19,6 +32,7 @@ export const getAllHotels = (url) => {
         .get(url)
         .then(res => {
             console.log(res.data);
+            successMessage(res.data.message);
             return res.data
         })
         .catch(e => {
@@ -26,6 +40,7 @@ export const getAllHotels = (url) => {
                 ...e
             }
             console.log(err);
+            errorMessage(err.response.data.message)
         })
 }
 
@@ -42,6 +57,7 @@ export const getHotelById = (id) => {
                 ...e
             }
             console.log(err);
+            errorMessage(err.response.data.message)
         })
 }
 
@@ -57,6 +73,7 @@ export const deleteHotel = (id) => {
                 ...e
             }
             console.log(err);
+            errorMessage(err.response.data.error);
         })
 }
 
@@ -64,7 +81,14 @@ export const updateHotel = (url, data) => {
     return axios
         .put(url, data)
         .then(res => {
-            console.log(res.data)
+            console.log(res.data);
+            successMessage(res.data.message);
         })
-        .catch(e => console.log(e))
+        .catch(e => {
+            const err = {
+                ...e
+            }
+            console.log(err)
+            errorMessage(err.response.data.error);
+        })
 }
