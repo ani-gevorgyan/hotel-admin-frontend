@@ -45,7 +45,7 @@ export const getAllHotels = (url) => {
 }
 
 export const getHotelById = (id) => {
-    const url = 'http://localhost:4000/hotel/' + id;
+    const url = 'http://localhost:4000/api/v1/hotels/' + id;
     return axios
         .get(url)
         .then(res => {
@@ -62,7 +62,7 @@ export const getHotelById = (id) => {
 }
 
 export const deleteHotel = (id) => {
-    const url = 'http://localhost:4000/hotels/' + id;
+    const url = 'http://localhost:4000/api/v1/hotels/' + id;
     axios
         .delete(url)
         .then(res => {
@@ -89,6 +89,59 @@ export const updateHotel = (url, data) => {
                 ...e
             }
             console.log(err)
+            errorMessage(err.response.data.error);
+        })
+}
+
+
+//------------------ USERS ----------------------//
+
+export const getAllUsers = (url) => {
+    return axios
+        .get(url)
+        .then(res => {
+            console.log(res.data);
+            successMessage(res.data.message);
+            return res.data
+        })
+        .catch(e => {
+            const err = {
+                ...e
+            }
+            console.log(err);
+            errorMessage(err.response.data.message)
+        })
+}
+
+
+export const updateUser = (url, data) => {
+    return axios
+        .put(url, data)
+        .then(res => {
+            console.log(res.data);
+            successMessage(res.data.message);
+        })
+        .catch(e => {
+            const err = {
+                ...e
+            }
+            console.log(err)
+            errorMessage(err.response.data.error);
+        })
+}
+
+export const deleteUser = (id) => {
+    const url = 'http://localhost:4000/api/v1/users/' + id;
+    axios
+        .delete(url)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(e => {
+            const err = {
+                ...e
+            }
+            console.log(err);
             errorMessage(err.response.data.error);
         })
 }

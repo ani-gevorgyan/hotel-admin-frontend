@@ -25,7 +25,7 @@ import Button from '@material-ui/core/Button';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 
 import HotelsList from '../../components/hotelsList/hotelsList';
-
+import UsersList from '../../components/usersList/usersList';
 
 const drawerWidth = 240;
 
@@ -108,15 +108,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 export default function AdminDashboard() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const [isSelected, setIsSelected] = React.useState(true);
-
-
-
-
+    const [isUserSelected, setUserSelected] = React.useState(false);
+    const [menuItem, setMenuItem] = React.useState('hotels');
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -126,6 +123,18 @@ export default function AdminDashboard() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const handleUserClick = () => {
+        setMenuItem('users');
+        setUserSelected(true);
+        setIsSelected(false);
+    }
+
+    const handleHotelClick = () => {
+        setMenuItem('hotels');
+        setIsSelected(true);
+        setUserSelected(false);
+    }
 
     return (
         <div className={classes.root}>
@@ -168,13 +177,13 @@ export default function AdminDashboard() {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button selected={isSelected}>
+                    <ListItem button onClick={handleHotelClick} selected={isSelected}>
                         <ListItemIcon>
                             <ApartmentIcon />
                         </ListItemIcon>
                         <ListItemText primary="Hotels" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={handleUserClick} selected={isUserSelected}>
                         <ListItemIcon>
                             <PeopleIcon />
                         </ListItemIcon>
@@ -192,7 +201,7 @@ export default function AdminDashboard() {
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 <Table size="medium">
-                                    <HotelsList />
+                                    {menuItem === 'hotels' ? <HotelsList /> : <UsersList />}
                                 </Table>
                             </Paper>
                         </Grid>

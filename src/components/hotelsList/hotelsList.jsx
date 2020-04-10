@@ -8,14 +8,14 @@ import Hotel from '../hotel/hotel';
 import { getAllHotels } from '../../services/services';
 
 export default function HotelsList() {
-    const url = 'http://localhost:4000/hotels'
+    const url = 'http://localhost:4000/api/v1/hotels'
     const [hotels, setHotel] = React.useState([]);
 
     useEffect(() => {
         const res = getAllHotels(url);
         res
             .then(res => {
-                setHotel(res.hotels);
+                setHotel(res.data);
             })
             .catch(err => console.log(err))
     }, [])

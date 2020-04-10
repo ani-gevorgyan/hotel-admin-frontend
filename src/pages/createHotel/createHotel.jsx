@@ -24,7 +24,7 @@ export default function CreateHotel() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let url = 'http://localhost:4000/hotel';
+        let url = 'http://localhost:4000/api/v1/hotels';
         const data = {
             name,
             address,

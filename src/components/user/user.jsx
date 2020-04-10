@@ -4,12 +4,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
 import ModalConfirm from '../modalConfirm/modalConfirm';
-import { deleteHotel } from '../../services/services';
-import EditModal from '../editModal/editModal';
+import { deleteUser } from '../../services/services';
+import EditUserModal from '../editUserModal/editUserModal';
 
 // import '../editModal/editModal.css';
 
-export default function Hotel({ hotel }) {
+export default function User({ user }) {
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
     const [editModalOpen, setEditModalOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -29,8 +29,8 @@ export default function Hotel({ hotel }) {
         setEditModalOpen(false);
     };
 
-    const handleDeleteHotel = (id, e) => {
-        deleteHotel(id);
+    const handleDeleteUser = (id, e) => {
+        deleteUser(id);
         setDeleteModalOpen(false);
         setTimeout(() => {
             console.log(id);
@@ -49,16 +49,15 @@ export default function Hotel({ hotel }) {
 
     return (
         <>
-            <TableRow key={hotel._id}>
-                <TableCell>{hotel.name}</TableCell>
-                <TableCell>{hotel.address}</TableCell>
-                <TableCell>{hotel.status}</TableCell>
-                <TableCell>{hotel.roomCount}</TableCell>
-                <TableCell>{hotel.price}$</TableCell>
+            <TableRow key={user._id}>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.hotelId ? user.hotelId : '-'}</TableCell>
                 <TableCell>
                     <Button variant="contained" color="primary" size="small"
                         onClick={(e) => {
-                            const id = hotel._id
+                            const id = user._id
                             onEditBtnClick(e, id)
                         }}
                         style={{ opacity: '0.9', marginRight: '5px', marginBottom: '2px' }}>
@@ -67,7 +66,7 @@ export default function Hotel({ hotel }) {
                     <Button variant="contained" color="secondary" size="small"
                         style={{ opacity: '0.9', marginBottom: '2px' }}
                         onClick={(e) => {
-                            const id = hotel._id
+                            const id = user._id
                             onDeleteBtnClick(e, id)
                         }}
                     >
@@ -78,10 +77,10 @@ export default function Hotel({ hotel }) {
             <ModalConfirm
                 open={deleteModalOpen}
                 modalHandleCancel={modalHandleCancel}
-                onDelete={e => handleDeleteHotel(hotel._id, e)}
+                onDelete={e => handleDeleteUser(user._id, e)}
             />
-            <EditModal
-                hotel={hotel}
+            <EditUserModal
+                user={user}
                 open={editModalOpen}
                 modalHandleCancel={modalHandleCancel} />
         </>

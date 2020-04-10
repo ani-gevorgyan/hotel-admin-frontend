@@ -31,7 +31,7 @@ export default function EditModal({ open, modalHandleCancel, hotel }) {
         setRoomCount(hotel.roomCount)
         setPrice(hotel.price)
         setStatus(hotel.status)
-    }, [hotel])
+    }, [])
 
     const handleStatusChange = (e) => {
         let status = e.target.value;
@@ -67,7 +67,7 @@ export default function EditModal({ open, modalHandleCancel, hotel }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let url = 'http://localhost:4000/hotels/' + hotel._id;
+        let url = 'http://localhost:4000/api/v1/hotels/' + hotel._id;
         const data = {
             name,
             address,
