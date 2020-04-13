@@ -3,6 +3,8 @@ import {
     message
 } from 'antd';
 
+import history from '../routes/history';
+
 export const errorMessage = (msg = '') => {
     message.error(msg, [10])
 }
@@ -16,7 +18,7 @@ export function createHotel(url, data) {
         .post(url, data)
         .then(res => {
             console.log(res.data.message, res.data.hotel);
-            successMessage(res.data.message);
+            successMessage('Loaded');
         })
         .catch(e => {
             const err = {
@@ -32,7 +34,7 @@ export const getAllHotels = (url) => {
         .get(url)
         .then(res => {
             console.log(res.data);
-            successMessage(res.data.message);
+            successMessage('Loaded');
             return res.data
         })
         .catch(e => {
@@ -82,7 +84,7 @@ export const updateHotel = (url, data) => {
         .put(url, data)
         .then(res => {
             console.log(res.data);
-            successMessage(res.data.message);
+            successMessage('Loaded');
         })
         .catch(e => {
             const err = {
@@ -101,7 +103,7 @@ export const getAllUsers = (url) => {
         .get(url)
         .then(res => {
             console.log(res.data);
-            successMessage(res.data.message);
+            successMessage('Loaded');
             return res.data
         })
         .catch(e => {
@@ -119,7 +121,7 @@ export const updateUser = (url, data) => {
         .put(url, data)
         .then(res => {
             console.log(res.data);
-            successMessage(res.data.message);
+            successMessage('Loaded');
         })
         .catch(e => {
             const err = {
@@ -144,4 +146,27 @@ export const deleteUser = (id) => {
             console.log(err);
             errorMessage(err.response.data.error);
         })
+}
+
+
+export const signInAdmin = (data) => {
+    const url = 'http://localhost:4000/api/v1/users/admin';
+    return axios
+        .post(url, data)
+        .then(res => {
+            console.log(res);
+            localStorage.setItem('token', res.headers.authorization);
+            if (localStorage.getItem('token') === res.headers.authorization) {
+                setTimeout(() => {
+                    history.push('/dashboard');
+                    window.location.reload(true);
+                }, 500);
+            }
+        })
+        .catch(e => {
+            const err = {
+                ...e
+            }
+            console.log(err);
+        });
 }
