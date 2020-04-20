@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import ModalConfirm from '../modalConfirm/modalConfirm';
 import { deleteHotel } from '../../services/services';
 import EditModal from '../editModal/editModal';
+import { message } from 'antd';
 
 // import '../editModal/editModal.css';
 
@@ -32,11 +33,13 @@ export default function Hotel({ hotel }) {
     const handleDeleteHotel = (id, e) => {
         deleteHotel(id);
         setDeleteModalOpen(false);
+        setLoading(true);
         setTimeout(() => {
             console.log(id);
-            setLoading(true)
-            window.location.reload(false);
-        }, 500);
+            setLoading(false);
+           // window.location.reload(false);
+            message.info('Reload to See Changes!');
+        }, 1500);
     };
 
     // if (loading) {

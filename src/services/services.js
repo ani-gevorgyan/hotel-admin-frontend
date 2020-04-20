@@ -2,20 +2,31 @@ import axios from 'axios';
 import {
     message
 } from 'antd';
+import Cookies from 'js-cookie';
 
 import history from '../routes/history';
 
 export const errorMessage = (msg = '') => {
-    message.error(msg, [10])
+    message.error(msg, [5])
 }
 
 export const successMessage = (msg) => {
-    message.success(msg, [10])
+    message.success(msg, [5])
 }
+
+const ls = localStorage.getItem('token');
+
+const headers = {
+    'authorization': `Bearer ${ls}`,
+    'Content-Type': 'application/json'
+}
+
 
 export function createHotel(url, data) {
     axios
-        .post(url, data)
+        .post(url, data, {
+            headers
+        })
         .then(res => {
             console.log(res.data.message, res.data.hotel);
             successMessage('Loaded');
@@ -31,25 +42,28 @@ export function createHotel(url, data) {
 
 export const getAllHotels = (url) => {
     return axios
-        .get(url)
+        .get(url, {
+            headers
+        })
         .then(res => {
-            console.log(res.data);
             successMessage('Loaded');
-            return res.data
+            return res.data;
         })
         .catch(e => {
             const err = {
                 ...e
             }
+            errorMessage(err.response.data.error);
             console.log(err);
-            errorMessage(err.response.data.message)
-        })
+        });
 }
 
 export const getHotelById = (id) => {
     const url = 'http://localhost:4000/api/v1/hotels/' + id;
     return axios
-        .get(url)
+        .get(url, {
+            headers
+        })
         .then(res => {
             console.log(res.data);
             return res.data
@@ -66,7 +80,9 @@ export const getHotelById = (id) => {
 export const deleteHotel = (id) => {
     const url = 'http://localhost:4000/api/v1/hotels/' + id;
     axios
-        .delete(url)
+        .delete(url, {
+            headers
+        })
         .then(res => {
             console.log(res.data);
         })
@@ -90,7 +106,7 @@ export const updateHotel = (url, data) => {
             const err = {
                 ...e
             }
-            console.log(err)
+            console.log(err);
             errorMessage(err.response.data.error);
         })
 }
@@ -100,7 +116,9 @@ export const updateHotel = (url, data) => {
 
 export const getAllUsers = (url) => {
     return axios
-        .get(url)
+        .get(url, {
+            headers
+        })
         .then(res => {
             console.log(res.data);
             successMessage('Loaded');
@@ -111,14 +129,16 @@ export const getAllUsers = (url) => {
                 ...e
             }
             console.log(err);
-            errorMessage(err.response.data.message)
+            errorMessage(err.response.data.error);
         })
 }
 
 
 export const updateUser = (url, data) => {
     return axios
-        .put(url, data)
+        .put(url, data, {
+            headers
+        })
         .then(res => {
             console.log(res.data);
             successMessage('Loaded');
@@ -135,7 +155,9 @@ export const updateUser = (url, data) => {
 export const deleteUser = (id) => {
     const url = 'http://localhost:4000/api/v1/users/' + id;
     axios
-        .delete(url)
+        .delete(url, {
+            headers
+        })
         .then(res => {
             console.log(res.data);
         })
@@ -150,17 +172,17 @@ export const deleteUser = (id) => {
 
 
 export const signInAdmin = (data) => {
-    const url = 'http://localhost:4000/api/v1/users/admin';
+    const url = 'http://localhost:4000/api/v1/auth/login';
     return axios
         .post(url, data)
         .then(res => {
             console.log(res);
-            localStorage.setItem('token', res.headers.authorization);
-            if (localStorage.getItem('token') === res.headers.authorization) {
+            if (res.data.token) {
+                localStorage.setItem('token', res.data.token);
                 setTimeout(() => {
-                    history.push('/dashboard');
+                    // history.push('/dashboard');
                     window.location.reload(true);
-                }, 500);
+                }, 1000);
             }
         })
         .catch(e => {
@@ -168,5 +190,22 @@ export const signInAdmin = (data) => {
                 ...e
             }
             console.log(err);
+            errorMessage(err.response.data.error);
         });
+}
+
+export const logOut = () => {
+    const url = 'http://localhost:4000/api/v1/auth/logout';
+    return axios
+        .post(url, {
+            headers
+        })
+        .then(res => {
+            localStorage.setItem('token', res.data.data);
+            setTimeout(() => {
+                //history.push('/');
+                window.location.reload(true);
+            }, 1000);
+        })
+        .catch(err => console.log(err))
 }

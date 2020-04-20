@@ -50,7 +50,7 @@ export default function SignIn() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = { email, password, type: 'admin' }
+        const data = { email, password}
         signInAdmin(data);
     }
 

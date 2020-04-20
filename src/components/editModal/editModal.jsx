@@ -14,6 +14,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './editModal.css';
 
 import { updateHotel } from '../../services/services';
+import { message } from 'antd';
 
 export default function EditModal({ open, modalHandleCancel, hotel }) {
     const [name, setName] = useState('');
@@ -80,8 +81,10 @@ export default function EditModal({ open, modalHandleCancel, hotel }) {
         setLoading(true);
         setTimeout(() => {
             console.log(data);
-            window.location.reload(true);
-        }, 500);
+            //window.location.reload(true);
+            setLoading(false);
+            message.info('Reload to See Changes');
+        }, 1500);
     }
 
     if (loading) {

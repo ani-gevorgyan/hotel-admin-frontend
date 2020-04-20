@@ -27,6 +27,8 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import HotelsList from '../../components/hotelsList/hotelsList';
 import UsersList from '../../components/usersList/usersList';
 
+import { logOut } from '../../services/services';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -136,6 +138,10 @@ export default function AdminDashboard() {
         setUserSelected(false);
     }
 
+    const onLogOut = () => {
+        logOut();
+}
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -156,11 +162,9 @@ export default function AdminDashboard() {
                     <Button variant="contained" color="secondary" href="/create-hotel" style={{ opacity: '0.9' }}>
                         Create Hotel
                     </Button>
-                    <IconButton color="inherit">
-                        <Badge color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                    <Button variant="contained" color="secondary" onClick={onLogOut} style={{ opacity: '0.9', marginLeft: '5px' }}>
+                        Log Out
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Drawer

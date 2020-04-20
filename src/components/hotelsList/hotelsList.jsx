@@ -15,9 +15,15 @@ export default function HotelsList() {
         const res = getAllHotels(url);
         res
             .then(res => {
-                setHotel(res.data);
+                if (res) {
+                    console.log('ooooooooooo', res)
+                    setHotel(res.data);
+                    
+                }
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+            })
     }, [])
 
     return (

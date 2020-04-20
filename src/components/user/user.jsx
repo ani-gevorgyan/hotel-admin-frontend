@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import ModalConfirm from '../modalConfirm/modalConfirm';
 import { deleteUser } from '../../services/services';
 import EditUserModal from '../editUserModal/editUserModal';
+import { message } from 'antd';
 
 // import '../editModal/editModal.css';
 
@@ -32,11 +33,13 @@ export default function User({ user }) {
     const handleDeleteUser = (id, e) => {
         deleteUser(id);
         setDeleteModalOpen(false);
+        setLoading(true);
         setTimeout(() => {
             console.log(id);
-            setLoading(true)
-            window.location.reload(false);
-        }, 500);
+            setLoading(false);
+            //window.location.reload(false);
+            message.info('Reload to See Changes!')
+        }, 1500);
     };
 
     // if (loading) {
